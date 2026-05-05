@@ -17,4 +17,4 @@ class GamePlayers(Base):
     death: Mapped[int] = mapped_column(Integer, default=0)
 
     game = relationship("Game", back_populates="players")
-    player = relationship("Player", back_populates="player_games")
+    user = relationship("User", back_populates="game_players")

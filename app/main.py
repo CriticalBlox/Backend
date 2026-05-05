@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-app = FastAPI(title="My Products API", version="1.0")
+from app.api.v1 import crud_user
+
+app = FastAPI(title="My API", version="1.0")
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+app.include_router(crud_user.router)
