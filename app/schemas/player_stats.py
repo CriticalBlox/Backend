@@ -1,16 +1,26 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class PlayerStatsBase(BaseModel):
-    roblox_id: int | None = None
+    roblox_id: int
+
+
+class PlayerStatsCreate(PlayerStatsBase):
+    kill: int
+    death: int
+    match_played: int
+    win_total: int
+    lose_total: int
 
 
 class PlayerStatsUpdate(BaseModel):
-    kill: int | None = None
-    death: int | None = None
-    match_played: int | None = None
-    win_total: int | None = None
-    lose_total: int | None = None
+    kill: Optional[int] = None
+    death: Optional[int] = None
+    match_played: Optional[int] = None
+    win_total: Optional[int] = None
+    lose_total: Optional[int] = None
 
 
 class PlayerStatsResponse(PlayerStatsBase):
