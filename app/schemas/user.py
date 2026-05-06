@@ -30,10 +30,10 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(BaseModel):
-    pseudo: str | None = None
-    email: EmailStr | None = None
-    password: str | None = None
-    role: UserRole | None = None
+    pseudo: Optional[str] = None
+    email: Optional[EmailStr] =  None
+    password: Optional[str] =  None
+    role: Optional[UserRole] =  None
 
 
 class UserLogin(BaseModel):
