@@ -92,19 +92,19 @@ def update_user(db: Session, user_id: int, user_update: UserUpdate):
 
     update_data = user_update.model_dump(exclude_unset=True)
 
-    if "password" in update_data:
-        raw_password = update_data.pop("password")
-
-        pre_hash = hashlib.sha256(raw_password.encode("utf-8")).hexdigest()
-        hashed_password = bcrypt.hashpw(
-            pre_hash.encode("utf-8"),
-            bcrypt.gensalt()
-        ).decode("utf-8")
-
-        update_data["password"] = hashed_password
-
     for key, value in update_data.items():
-        setattr(db_user, key, value)
+        if key == "password":
+            raw_password = update_data.pop("password")
+
+            pre_hash = hashlib.sha256(raw_password.encode("utf-8")).hexdigest()
+            hashed_password = bcrypt.hashpw(
+                pre_hash.encode("utf-8"),
+                bcrypt.gensalt()
+            ).decode("utf-8")
+
+            update_data["password"] = hashed_password
+        else:
+            setattr(db_user, key, value)
 
     db.commit()
     db.refresh(db_user)
