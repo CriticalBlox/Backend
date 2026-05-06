@@ -9,7 +9,15 @@ from app.schemas.user import UserCreate, UserUpdate
 
 
 def get_user(db: Session, user_id: int):
-    return db.query(User).filter(User.id == user_id).first()
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if user is not None:
+        return user
+
+    raise HTTPException(
+        status_code=400,
+        detail="Aucun utilisateur"
+    )
 
 
 def get_user_by_email(db: Session, email: str):
