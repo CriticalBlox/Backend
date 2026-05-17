@@ -9,8 +9,8 @@ class PlayerStatsBase(BaseModel):
 
 
 class PlayerStatsCreate(PlayerStatsBase):
-    kill: int
-    death: int
+    kills: int
+    deaths: int
     match_played: int
     win_total: int
     lose_total: int
@@ -18,8 +18,8 @@ class PlayerStatsCreate(PlayerStatsBase):
 
 class PlayerStatsUpdate(BaseModel):
     pseudo: Optional[str] = None
-    kill: Optional[int] = None
-    death: Optional[int] = None
+    kills: Optional[int] = None
+    deaths: Optional[int] = None
     match_played: Optional[int] = None
     win_total: Optional[int] = None
     lose_total: Optional[int] = None
@@ -27,8 +27,8 @@ class PlayerStatsUpdate(BaseModel):
 
 class PlayerStatsResponse(PlayerStatsBase):
     id: int
-    kill: int
-    death: int
+    kills: int
+    deaths: int
     match_played: int
     win_total: int
     lose_total: int
