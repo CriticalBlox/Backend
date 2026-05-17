@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class PlayerStatsBase(BaseModel):
     roblox_id: int
+    pseudo: str
 
 
 class PlayerStatsCreate(PlayerStatsBase):
@@ -16,6 +17,7 @@ class PlayerStatsCreate(PlayerStatsBase):
 
 
 class PlayerStatsUpdate(BaseModel):
+    pseudo: Optional[str] = None
     kill: Optional[int] = None
     death: Optional[int] = None
     match_played: Optional[int] = None
