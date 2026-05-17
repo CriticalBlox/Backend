@@ -33,6 +33,7 @@ def get_all_stats(db: Session, page: int = 1, size: int = 10):
 def create_stats(db: Session, stats: PlayerStatsCreate):
     db_user = player_stats.PlayerStats(
         roblox_id=stats.roblox_id,
+        pseudo=stats.pseudo,
         kill=stats.kill,
         death=stats.death,
         match_played=stats.match_played,
