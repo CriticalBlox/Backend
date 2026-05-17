@@ -15,9 +15,9 @@ class Game(Base):
     ended_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     map_name: Mapped[str] = mapped_column(String(255), nullable=False)
     rounds_total: Mapped[int] = mapped_column(Integer, default=0)
-    team_red: Mapped[int] = mapped_column(Integer, default=0)
-    team_blue: Mapped[int] = mapped_column(Integer, default=0)
-    winner_team: Mapped[Team] = mapped_column(TeamType, nullable=False)
+    red_score: Mapped[int] = mapped_column(Integer, default=0)
+    blue_score: Mapped[int] = mapped_column(Integer, default=0)
+    winner_team: Mapped[Team | None] = mapped_column(TeamType, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
 
     rounds = relationship("Round", back_populates="game")
