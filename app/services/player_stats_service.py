@@ -90,3 +90,30 @@ def update_stats(db: Session, stat_id: int, stats_update: PlayerStatsUpdate):
     db.refresh(db_stats)
 
     return db_stats
+
+def get_leaderboard(db: Session, page: int = 1, size: int = 10):
+    if page < 1:
+        page = 1
+
+    offset = (page - 1) * size
+
+    players = (
+        db.query(PlayerStats)
+        .order_by(
+            PlayerStats.kills.desc(),
+            PlayerStats.deaths.asc(),
+        )
+        .offset(offset)
+        .limit(size)
+        .all()
+    )
+
+    return [
+        {
+            "pseudo": player.pseudo,
+            "kills": player.kills,
+            "deaths": player.deaths,
+            "win_total": player.win_total,
+        }
+        for player in players
+    ]
