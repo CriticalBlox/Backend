@@ -117,3 +117,27 @@ def get_leaderboard(db: Session, page: int = 1, size: int = 10):
         }
         for player in players
     ]
+
+def update_stats_by_roblox_id(db: Session,roblox_id: int, stats_update: PlayerStatsUpdate,):
+    db_stats = get_stats_by_roblox_id(db, roblox_id)
+
+    if not db_stats:
+        raise HTTPException(
+            status_code=404,
+            detail="Stats joueur introuvables"
+        )
+
+    update_data = stats_update.model_dump(exclude_unset=True)
+
+    for key, value in update_data.items():
+        current_value = getattr(db_stats, key)
+
+        if isinstance(current_value, int) and isinstance(value, int):
+            setattr(db_stats, key, current_value + value)
+        else:
+            setattr(db_stats, key, value)
+
+    db.commit()
+    db.refresh(db_stats)
+
+    return db_stats
