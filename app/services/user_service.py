@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.models import users
 from app.models.users import User
-from app.schemas.user import UserCreate, UserUpdate
+from app.schemas.user import UserCreate, UserUpdate, UserRole
 
 
 def get_user(db: Session, user_id: int):
@@ -118,3 +118,10 @@ def update_user(db: Session, user_id: int, user_update: UserUpdate):
     db.refresh(db_user)
 
     return db_user
+
+
+def create_user_with_role_check(db: Session, user: UserCreate, current_user: dict | None):
+    if not current_user or current_user["role"] != UserRole.superadmin:
+        user.role = UserRole.user
+
+    return create_user_check_existing(db, user)
