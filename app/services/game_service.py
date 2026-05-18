@@ -56,6 +56,12 @@ def update_game(db: Session, game_id: int, game_update: GameUpdate):
 def delete_game(db: Session, game_id: int):
     db_game = get_game(db, game_id)
 
+    for player in db_game.players:
+        db.delete(player)
+
+    for round_ in db_game.rounds:
+        db.delete(round_)
+
     db.delete(db_game)
     db.commit()
 
