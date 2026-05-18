@@ -4,20 +4,22 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from app.db.session import get_db
-from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserRole
 from app.services import user_service
+from app.services.jwt_service import get_optional_current_user
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.post("", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    return user_service.create_user_check_existing(db, user)
+def create_user(user: UserCreate, db: Session = Depends(get_db),current_user: dict | None = Depends(get_optional_current_user)):
+    return user_service.create_user_with_role_check(db, user, current_user, )
 
 
 @router.get("", response_model=list[UserResponse])
 def get_users(page: int = 1, db: Session = Depends(get_db)):
     return user_service.get_all_users(db, page)
+
 
 @router.get("/{user_id}", response_model=UserResponse)
 def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
