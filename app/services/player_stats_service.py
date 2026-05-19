@@ -20,6 +20,17 @@ def get_stats_by_id(db: Session, stat_id: int):
 def get_stats_by_roblox_id(db: Session, roblox_id: int):
     return db.query(PlayerStats).filter(PlayerStats.roblox_id == roblox_id).first()
 
+def get_stats_by_pseudo(db: Session, pseudo: str):
+    stat = (db.query(PlayerStats).filter(PlayerStats.pseudo == pseudo).first())
+
+    if stat:
+        return stat
+
+    raise HTTPException(
+        status_code=404,
+        detail="Aucune stats trouvée pour ce pseudo"
+    )
+
 
 def get_all_stats(db: Session, page: int = 1, size: int = 10):
     if page < 1:
