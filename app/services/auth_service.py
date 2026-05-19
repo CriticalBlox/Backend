@@ -46,5 +46,10 @@ def login_user(db: Session, user_login: UserLogin, response: Response):
 
 
 def logout_user(response: Response):
-    response.delete_cookie("access_token")
+    response.delete_cookie(
+        key="access_token",
+        samesite="none",
+        secure=True,
+    )
+
     return {"message": "Déconnexion réussie"}
