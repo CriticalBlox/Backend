@@ -22,9 +22,9 @@ def get_stat(page: int = 1, db: Session = Depends(get_db)):
     return player_stats_service.get_all_stats(db, page)
 
 
-@router.get("/{stats_id}", response_model=PlayerStatsResponse)
-def get_stat_by_id(stats_id: int, db: Session = Depends(get_db)):
-    return player_stats_service.get_stats_by_id(db, stats_id)
+@router.get("/{pseudo}", response_model=PlayerStatsResponse)
+def get_stat_by_pseudo(pseudo: str,db: Session = Depends(get_db),):
+    return player_stats_service.get_stats_by_pseudo(db, pseudo)
 
 
 @router.delete("/{stats_id}")
@@ -35,4 +35,3 @@ def delete_stat_by_id(stats_id: int, db: Session = Depends(get_db),_current_user
 @router.patch("/{roblox_id}", response_model=PlayerStatsResponse)
 def update_stat_by_roblox_id(roblox_id: int,stat_update: PlayerStatsUpdate,db: Session = Depends(get_db),_auth: dict = Depends(require_api_key_or_admin),):
     return player_stats_service.update_stats_by_roblox_id(db,roblox_id,stat_update)
-
