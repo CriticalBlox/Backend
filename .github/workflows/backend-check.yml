@@ -14,3 +14,17 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t critical-blox-api .
+
+  test-unitaire:
+    runs-on: ubuntu-latest
+    needs: docker-build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image for tests
+        run: docker build -t critical-blox-api .
+
+      - name: Run pytest
+        run: docker run --rm critical-blox-api python -m pytest -v
