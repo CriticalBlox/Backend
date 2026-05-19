@@ -17,9 +17,8 @@ def create_game(game: GameCreate, db: Session = Depends(get_db), _auth: dict = D
 
 
 @router.get("", response_model=list[GameResponse])
-def get_games(page: int = 1, db: Session = Depends(get_db)):
-    return game_service.get_all_games(db, page)
-
+def get_games(page: int = 1,size: int = 5,db: Session = Depends(get_db)):
+    return game_service.get_all_games(db, page, size)
 
 @router.get("/{game_id}", response_model=GameResponse)
 def get_game_by_id(game_id: int, db: Session = Depends(get_db)):

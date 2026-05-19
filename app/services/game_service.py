@@ -14,13 +14,16 @@ def get_game(db: Session, game_id: int):
     raise HTTPException(status_code=404, detail="Partie introuvable")
 
 
-def get_all_games(db: Session, page: int = 1, size: int = 10):
+def get_all_games(db: Session, page: int = 1, size: int = 5):
     if page < 1:
         page = 1
 
+    if size < 1:
+        size = 5
+
     offset = (page - 1) * size
 
-    return db.query(Game).offset(offset).limit(size).all()
+    return db.query(Game).order_by(Game.id.desc()).offset(offset).limit(size).all()
 
 
 def create_game(db: Session, game: GameCreate):
