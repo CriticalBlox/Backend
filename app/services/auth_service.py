@@ -31,8 +31,8 @@ def login_user(db: Session, user_login: UserLogin, response: Response):
         httponly=True,
         max_age=3600,
         expires=3600,
-        samesite="lax",
-        secure=False,
+        samesite="none",
+        secure=True,
     )
 
     return {
